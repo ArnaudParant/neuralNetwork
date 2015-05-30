@@ -23,7 +23,7 @@ create size = do
 
 to_string :: Neuron -> String
 to_string (biases, weights) =
-  "Neuron :: "++ (show biases) ++" "++ (show weights)
+  "("++ (show biases) ++" "++ (show weights) ++")"
 
 compute_u :: Neuron -> [Input] -> Float
 compute_u ([], _) _ = 0

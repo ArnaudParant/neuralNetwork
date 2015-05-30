@@ -1,6 +1,6 @@
-import Layer
+import ANN
 
 main = do
-  layer <- Layer.create 5 1
-  putStr (Layer.to_string layer)
-  print (Layer.map1 layer [0.8, 0.2, 0.4, 0.1, 0.6])
+  ann <- ANN.make [2, 5, 3]
+  putStr (ANN.to_string ann)
+  print (ANN.compute ann [0.8, 0.2])

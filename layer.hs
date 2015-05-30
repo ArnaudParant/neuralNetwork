@@ -14,10 +14,10 @@ create layer_size neuron_size = do
 aux_to_string :: Layer -> String
 aux_to_string [] = ""
 aux_to_string (neuron:layer) =
-  (Neuron.to_string neuron) ++ "\n" ++ (aux_to_string layer)
+  (Neuron.to_string neuron) ++" "++ (aux_to_string layer)
 
 to_string :: Layer -> String
-to_string layer = "Layer ::\n" ++ (aux_to_string layer)
+to_string layer = "{"++ (aux_to_string layer) ++"}"
 
 map_list :: Layer -> [[Neuron.Input]] -> [Float]
 map_list [] _ = []
