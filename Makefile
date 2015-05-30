@@ -1,6 +1,7 @@
 NAME :=		neuralNetwork
 
-HS :=		main.hs
+HS :=		neuron.hs	\
+		main.hs
 
 GHC :=		ghc
 
