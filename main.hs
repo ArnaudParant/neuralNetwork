@@ -1,6 +1,6 @@
-import Neuron
+import Layer
 
 main = do
-  neuron <- Neuron.create 2
-  print (Neuron.to_string neuron)
-  print (Neuron.compute neuron [0.8, 0.2])
+  layer <- Layer.create 5 1
+  putStr (Layer.to_string layer)
+  print (Layer.map1 layer [0.8, 0.2, 0.4, 0.1, 0.6])

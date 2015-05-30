@@ -1,6 +1,7 @@
 NAME :=		neuralNetwork
 
 HS :=		maths.hs	\
+		layer.hs	\
 		neuron.hs	\
 		main.hs
 
