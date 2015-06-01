@@ -33,7 +33,7 @@ compute_u ((bias:biases), (weight:weights)) (input:inputs) =
   (bias + (weight * input)) + compute_u (biases, weights) inputs
 
 threshold_func :: Float -> Float
-threshold_func u = 1 / (1 + (Maths.e * (-u)))
+threshold_func u = 1 / (1 + (Maths.e ** (-u)))
 
 compute :: Neuron -> [Input] -> Float
 compute neuron inputs = threshold_func (compute_u neuron inputs)
