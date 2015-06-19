@@ -10,16 +10,18 @@ type Weight = Float
 type Input = Float
 type Neuron = ([Bias], [Weight])
 
-rand :: Int -> IO [Float]
-rand size = do
-  list <- sequence (take size (repeat (getStdRandom (randomR (-0.2, 0.2)))))
-  return list
+rand :: StdGen -> Int -> (StdGen, [Float])
+rand gen 0 = (gen, [])
+rand gen size =
+  let (v, g2) = randomR (-0.2, 0.2) gen in
+  let (g3, l) = rand g2 (size-1) in
+  (g3, v:l)
 
-create :: Int -> IO Neuron
-create size = do
-  biases <- rand size
-  weights <- rand size
-  return (biases, weights)
+create :: StdGen -> Int -> (StdGen, Neuron)
+create gen size =
+  let (g2, biases) = rand gen size in
+  let (g3, weights) = rand g2 size in
+  (g3, (biases, weights))
 
 to_string :: Neuron -> String
 to_string (biases, weights) =

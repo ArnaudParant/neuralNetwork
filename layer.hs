@@ -1,15 +1,18 @@
 module Layer where
 
 import Data.List
+import System.Random
 
 import Neuron
 
 type Layer = [Neuron]
 
-create :: Int -> Int -> IO Layer
-create layer_size neuron_size = do
-  layer <- sequence (take layer_size (repeat (Neuron.create neuron_size)))
-  return layer
+create :: StdGen -> Int -> Int -> (StdGen, Layer)
+create gen 0 _ = (gen, [])
+create gen layer_size neuron_size =
+  let (g2, n) = Neuron.create gen neuron_size in
+  let (g3, ns) = Layer.create g2 (layer_size-1) neuron_size in
+  (g3, n:ns)
 
 aux_to_string :: Layer -> String
 aux_to_string [] = ""

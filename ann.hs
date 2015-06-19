@@ -1,21 +1,22 @@
 module ANN where
 
 import Data.List
+import System.Random
 
 import Neuron
 import Layer
 
 type ANN = [Layer]
 
-aux_make :: Int -> [Int] -> IO ANN
-aux_make _ [] = return []
-aux_make last_size (layer_size:layer_sizes) = do
-  layer <- Layer.create layer_size last_size
-  layers <- aux_make layer_size layer_sizes
-  return (layer:layers)
+aux_create :: StdGen -> Int -> [Int] -> (StdGen, ANN)
+aux_create gen _ [] = (gen, [])
+aux_create gen last_size (layer_size:layer_sizes) =
+  let (g2, layer) = Layer.create gen layer_size last_size in
+  let (g3, layers) = ANN.aux_create g2 layer_size layer_sizes in
+  (g3, layer:layers)
 
-make :: [Int] -> IO ANN
-make layer_sizes = aux_make 1 layer_sizes
+create :: StdGen -> [Int] -> (StdGen, ANN)
+create gen layer_sizes = aux_create gen 1 layer_sizes
 
 aux_ann_to_string :: ANN -> String
 aux_ann_to_string [] = ""
