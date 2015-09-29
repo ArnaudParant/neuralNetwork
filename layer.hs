@@ -7,6 +7,13 @@ import Neuron
 
 type Layer = [Neuron]
 
+create_input :: Int -> Int -> Layer
+create_input 0 _ = []
+create_input layer_size neuron_size =
+  let n = Neuron.create_input neuron_size in
+  let ns = Layer.create_input (layer_size-1) neuron_size in
+  n:ns
+
 create :: StdGen -> Int -> Int -> (StdGen, Layer)
 create gen 0 _ = (gen, [])
 create gen layer_size neuron_size =

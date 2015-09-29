@@ -16,7 +16,10 @@ aux_create gen last_size (layer_size:layer_sizes) =
   (g3, layer:layers)
 
 create :: StdGen -> [Int] -> (StdGen, ANN)
-create gen layer_sizes = aux_create gen 1 layer_sizes
+create gen (first_size:layer_sizes) =
+  let first = Layer.create_input first_size 1 in
+  let (g2, others) = aux_create gen first_size layer_sizes in
+  (g2, first:others)
 
 aux_ann_to_string :: ANN -> String
 aux_ann_to_string [] = ""
@@ -35,3 +38,26 @@ aux_compute (layer:layers) inputs =
 compute :: ANN -> [Neuron.Input] -> [Float]
 compute (layer:layers) inputs =
   aux_compute layers (Layer.map1 layer inputs)
+
+aux_error :: [Float] -> [Float] -> Float
+aux_error [] _ = 0
+aux_error _ [] = 0
+aux_error (output:outputs) (target:targets) =
+  ((output - target) * (output - target)) + aux_error outputs targets
+
+error :: [Float] -> [Float] -> Float
+error ouputs targets =
+  (aux_error ouputs targets) / 2
+
+delta :: Float -> Float -> Float
+delta output target = output * (1 - output) * (output - target)
+
+-- aux_train :: ANN -> [Neuron.Input] -> [Float] -> ()
+-- aux_train [] input target = ()
+-- aux_train (layer:layers) inputs target =
+--   let inputs_list = take (length layer) (repeat inputs) in
+--   aux_train layers (Layer.map_list layer inputs_list)
+
+-- train :: ANN -> [Neuron.Input] -> [Float] -> ()
+-- train (layer:layers) inputs =
+--     aux_train layers (Layer.map1 layer inputs)

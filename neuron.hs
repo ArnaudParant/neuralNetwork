@@ -17,6 +17,12 @@ rand gen size =
   let (g3, l) = rand g2 (size-1) in
   (g3, v:l)
 
+create_input :: Int -> Neuron
+create_input size =
+  let biases = take size (repeat 0) in
+  let weights = take size (repeat 1) in
+  (biases, weights)
+
 create :: StdGen -> Int -> (StdGen, Neuron)
 create gen size =
   let (g2, biases) = rand gen size in
